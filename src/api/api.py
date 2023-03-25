@@ -19,6 +19,24 @@ df['Username'] = df['Username'].astype(str)
 df['BGGId'] = df['BGGId'].astype(int)
 df['Rating'] = df['Rating'].astype('float32')
 
+def recent_game(date):
+    """ 
+    Transform the PublishedYear Column to a binary classification. If it was before 2016, it is old(0), otherwise new(1)
+    
+    Parameters:
+        date(int): the date publication    
+
+    Returns:
+        0 or 1 depending on the date provided. 
+    """
+    if date > 2016:
+        return 1
+    else: 
+        return 0
+    
+game_df['new_or_old'] = game_df['YearPublished'].apply(recent_game)
+
+
 # Encode the BGGId and Username to a certain value via a dictionary
 user_ids = df['Username'].unique().tolist()
 game_ids = df['BGGId'].unique().tolist()
@@ -91,7 +109,8 @@ def user_recommendations(user, n_games,model):
     top_ratings_idx = predictions.T[0].argsort()[::-1][:n_games]
     bgg_ids = user_game_list[top_ratings_idx]
     bgg_name = [game_df.loc[game_df['BGGId'] ==id]['Name'].values[0] for id in bgg_ids]
-    print(f'Top boardgames for {user} in order are: \n {bgg_name}')
+    return bgg_name
+
 
 class Predict(Resource):
     def post(self):
