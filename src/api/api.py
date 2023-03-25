@@ -116,8 +116,13 @@ class Predict(Resource):
     def post(self):
         json_data = request.get_json()
         df = pd.DataFrame(json_data.values(), index=json_data.keys()).transpose()
-        prediction = user_recommendations(df.iloc[0].values[0], df.iloc[0].values[1], model)
-        return jsonify({'prediction': prediction})
+        user_game_dict = dict()
+        for i,item in enumerate(df.values):
+            user_game_dict[df['Username'].iloc[i]] = user_recommendations(item[0],item[1],model)
+        # lst = []
+        # for i, row in enumerate(df.values):
+        #     lst.append([df['Username'].iloc[i], user_recommendations(row[0],row[1], model)])
+        return jsonify(user_game_dict)
 
 api.add_resource(Predict, '/predict')
 
