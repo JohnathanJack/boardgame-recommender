@@ -21,4 +21,6 @@ Unable to test the recommender systems as it requires feedback from each user in
 
 
 ## Future Goals
-Continue experimenting with adding more custom features and differnt hidden layers and see if those results in better recommendations for every user. 
+1. Continue experimenting with adding more custom features and different hidden layers and see if those results in better recommendations for every user. 
+2. Deployment - would like to return the boardgame graphic along with the boardgame name
+3. Increase turnaround time of result
